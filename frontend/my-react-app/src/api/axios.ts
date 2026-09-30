@@ -1,12 +1,10 @@
-
-
-// import type  { AxiosRequestConfig } from "axios"
 import axios from "axios"
+
 const api = axios.create({
-    baseURL: "http://localhost:3000/"
+    baseURL: import.meta.env.VITE_API_URL || ""
 })
 
-api.interceptors.request.use((config:any = {}) => {
+api.interceptors.request.use((config: any = {}) => {
     const token = localStorage.getItem("token")
 
     // Ensure headers object exists and is correctly typed

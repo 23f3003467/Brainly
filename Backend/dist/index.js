@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 import { verifyToken } from "./Usermiddleware.js";
 import { randomString, Secretkey } from "./utils.js";
 import cors from "cors";
-// import 
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -17,12 +16,14 @@ app.post("/api/signup", async (req, res) => {
     console.log(username, password);
     let user = await User.findOne({ username });
     if (user == null) {
+        console.log(username, password);
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({ username, password: hashedPassword });
         res.status(200).json({ message: "USER created successfully" });
     }
     else {
-        res.json({ message: "Teri maa ka chut user already exist" });
+        console.log("exist already");
+        return res.status(409).json({ message: "Teri maa ka chut user already exist" });
     }
 });
 app.post("/api/signin", async (req, res) => {
@@ -52,12 +53,18 @@ app.post("/api/signin", async (req, res) => {
     }
 });
 app.get("/api/content", verifyToken, async (req, res) => {
-    let content = await Content.find({ Userid: req.body.userid });
+    if (!req.userid) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+    const content = await Content.find({
+        userId: req.userid
+    });
+    // let content= await Content.find({Userid:req.userid})
     res.status(200).json({ message: "content route", content });
 });
 app.post("/api/content/add", verifyToken, async (req, res) => {
     const { title, link, tag } = req.body;
-    const content = await Content.create({ title, link, tag, Userid: req.body.userid });
+    const content = await Content.create({ title, link, tag, userId: req.userid ? req.userid : "1" });
     res.status(200).json({ message: "content added", content });
 });
 app.delete("/api/content/:id", verifyToken, async (req, res) => {
@@ -67,7 +74,7 @@ app.delete("/api/content/:id", verifyToken, async (req, res) => {
 });
 app.post("/api/brain/share", verifyToken, async (req, res) => {
     const sharelink = randomString(10);
-    const Userid = req.body.userid;
+    const Userid = req.userid;
     await User.findByIdAndUpdate(Userid, { sharelink });
     res.status(200).json({ message: "share route", sharelink });
 });

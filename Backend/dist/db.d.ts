@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 export declare const User: mongoose.Model<{
     username: string;
     password: string;
@@ -21,7 +22,7 @@ export declare const User: mongoose.Model<{
     __v: number;
 }, "id"> & {
     id: string;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
+}, Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
     username: string;
     password: string;
     sharelink?: string | null;
@@ -62,44 +63,44 @@ export declare const Content: mongoose.Model<{
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 }, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, {
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 }, {
     id: string;
 }, mongoose.DefaultSchemaOptions> & Omit<{
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
 }, "id"> & {
     id: string;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
+}, Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 }, mongoose.Document<unknown, {}, {
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 }, {
     id: string;
 }, mongoose.DefaultSchemaOptions> & Omit<{
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -110,7 +111,7 @@ export declare const Content: mongoose.Model<{
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -119,7 +120,7 @@ export declare const Content: mongoose.Model<{
     title: string;
     link: string;
     tag?: string | null;
-    Userid?: mongoose.Types.ObjectId | null;
+    userId?: mongoose.Types.ObjectId | null;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {

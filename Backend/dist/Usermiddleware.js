@@ -16,7 +16,7 @@ export const verifyToken = (req, res, next) => {
             res.status(401).json({ message: "Invalid token" });
         }
         else {
-            req.body.userid = decoded.id;
+            req.userid = decoded.id;
             next();
         }
     });
