@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "npm run build --prefix Backend && npm run build --prefix frontend/my-react-app"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0"
   },
