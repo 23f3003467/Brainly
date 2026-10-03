@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Schema } from "mongoose";
+export declare function connectDatabase(): Promise<typeof mongoose>;
 export declare const User: mongoose.Model<{
     username: string;
     password: string;
@@ -20,9 +20,9 @@ export declare const User: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
+}>, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
     username: string;
     password: string;
     sharelink?: string | null;
@@ -40,9 +40,9 @@ export declare const User: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, unknown, {
+}>, unknown, {
     username: string;
     password: string;
     sharelink?: string | null;
@@ -82,9 +82,9 @@ export declare const Content: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
+}>, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, {
     title: string;
     link: string;
     tag?: string | null;
@@ -105,9 +105,9 @@ export declare const Content: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, unknown, {
+}>, unknown, {
     title: string;
     link: string;
     tag?: string | null;

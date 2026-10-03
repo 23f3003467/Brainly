@@ -1,4 +1,5 @@
 import {  useRef } from "react"
+import axios from "axios"
 import Input from "./input"
 import CloseIcon from "../icons/closeicon"
 import Button from "./button"
@@ -9,19 +10,15 @@ export default function ContentModal({ isOpen, OnClose }: { isOpen: boolean, OnC
   const linkRef = useRef<HTMLInputElement>(null)
   const tagRef = useRef<HTMLSelectElement>(null)
   const createContent = useCreateContentApi()
+    const isUnauthorized = axios.isAxiosError(createContent.error) && createContent.error.response?.status === 401
   
 
-  async function handleSubmit(){
+  function handleSubmit(){
         const title = titleRef.current?.value ?? ""
         const link = linkRef.current?.value ?? ""
-        const type = tagRef.current?.value ?? ""
+        const tag = tagRef.current?.value ?? ""
 
-        await createContent.mutate({
-            title,
-            link,
-            type,
-        });
-        OnClose()
+        createContent.mutate({ title, link, tag }, { onSuccess: OnClose })
 
   }
   
@@ -44,11 +41,12 @@ export default function ContentModal({ isOpen, OnClose }: { isOpen: boolean, OnC
                             <label className="self-center text-sm font-medium text-gray-700 align-baseline text-center">Tag</label>
 
                             <select ref={tagRef} className="w-1/4 rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 outline-none focus:border-purple-500">
-                                <option value="x">X</option>
-                                <option value="youtube">Youtube</option>
-                                <option value="docs">Docs</option>
+                                <option value="X">X</option>
+                                <option value="Youtube">Youtube</option>
+                                <option value="DocumentIcon">Docs</option>
                             </select>
 
+                            {createContent.isError && <p role="alert">{isUnauthorized ? "Please sign in again to add content." : "Could not add content. Check your connection and try again."}</p>}
                             <Button variant="primary" text="Submit" onClick={handleSubmit} />
                         </span>
                 </div>

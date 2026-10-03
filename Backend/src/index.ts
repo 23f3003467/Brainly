@@ -1,11 +1,11 @@
 import express from "express";
-import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import { User, Content} from "./db.js";
+import { User, Content, connectDatabase} from "./db.js";
 import bcrypt from "bcrypt";
 import { verifyToken } from "./Usermiddleware.js";
 import {randomString,Secretkey} from "./utils.js"
 import cors from "cors"
+import { env } from "node:process";
 // import 
 declare global {
     namespace Express {
@@ -18,6 +18,14 @@ const app = express();
 
 app.use(express.json());
 app.use(cors())
+app.use(async (_req, _res, next) => {
+  try {
+    await connectDatabase();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 // routes
 
 app.post("/api/signup", async (req, res) => {
@@ -111,9 +119,19 @@ app.get("/api/brain/:sharelink", async (req, res) => {
   res.status(200).json({ message: "Brain content readonly", content });
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("Request failed:", error);
+  res.status(500).json({ message: "Internal server error" });
 });
+
+export default app;
+
+if (!env.VERCEL) {
+  const port = Number(env.PORT ?? 3000);
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
 
 
 

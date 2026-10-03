@@ -5,8 +5,8 @@
       "root": "Backend",
       "framework": "express"
     },
-    "my-react-app": {
-      "root": "frontend/my-react-app",
+    "frontend": {
+      "root": "frontend",
       "framework": "vite"
     }
   },
@@ -20,7 +20,7 @@
     {
       "source": "/(.*)",
       "destination": {
-        "service": "my-react-app"
+        "service": "frontend"
       }
     }
   ]

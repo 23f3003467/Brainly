@@ -4,7 +4,7 @@ export async function getContent() {
 
     const { data } = await api.get("/api/content")
 
-    return data
+    return data.content
 
 }
 

@@ -1,6 +1,23 @@
 import mongoose from "mongoose";
 import { Schema, model } from "mongoose";
-mongoose.connect("mongodb://127.0.0.1:27017/brainly");
+import { env } from "node:process";
+let connectionPromise;
+export function connectDatabase() {
+    if (mongoose.connection.readyState === 1) {
+        return Promise.resolve(mongoose);
+    }
+    if (!connectionPromise) {
+        const mongoUri = env.MONGODB_URI;
+        if (!mongoUri) {
+            return Promise.reject(new Error("MONGODB_URI must be configured."));
+        }
+        connectionPromise = mongoose.connect(mongoUri).catch((error) => {
+            connectionPromise = undefined;
+            throw error;
+        });
+    }
+    return connectionPromise;
+}
 const userSchema = new Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },

@@ -1,14 +1,23 @@
 import express from "express";
-import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import { User, Content } from "./db.js";
+import { User, Content, connectDatabase } from "./db.js";
 import bcrypt from "bcrypt";
 import { verifyToken } from "./Usermiddleware.js";
 import { randomString, Secretkey } from "./utils.js";
 import cors from "cors";
+import { env } from "node:process";
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(async (_req, _res, next) => {
+    try {
+        await connectDatabase();
+        next();
+    }
+    catch (error) {
+        next(error);
+    }
+});
 // routes
 app.post("/api/signup", async (req, res) => {
     const username = req.body.username;
@@ -88,7 +97,15 @@ app.get("/api/brain/:sharelink", async (req, res) => {
     const content = await Content.find({ Userid: user?._id });
     res.status(200).json({ message: "Brain content readonly", content });
 });
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.use((error, _req, res, _next) => {
+    console.error("Request failed:", error);
+    res.status(500).json({ message: "Internal server error" });
 });
+export default app;
+if (!env.VERCEL) {
+    const port = Number(env.PORT ?? 3000);
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
 //# sourceMappingURL=index.js.map

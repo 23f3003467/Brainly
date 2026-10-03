@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import Input from "../component/input"
 import Button from "../component/button"
 import {Url} from "../config"
+import PublicNavbar from "../component/publicnavbar"
 export default function SignUp() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -44,7 +45,9 @@ export default function SignUp() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <main className="min-h-screen bg-gray-100">
+        <PublicNavbar />
+        <div className="flex flex-col items-center justify-center min-h-[calc(100svh-73px)]">
             <div className="flex flex-col gap-2 justify-center border-2 border-gray-400 rounded p-4">
               <span className="p-2 font-bold text-2xl">SignUp</span>
             <Input styleType="primary" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -52,5 +55,6 @@ export default function SignUp() {
             <Button variant="primary" text={loading ? "Loading..." : "Sign-Up"} onClick={handleSignUp} fullwidth={true} cursor={true} disabled={loading}></Button>
             </div>
         </div>
+        </main>
     )
 }
